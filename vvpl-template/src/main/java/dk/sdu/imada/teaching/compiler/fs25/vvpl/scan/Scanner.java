@@ -19,7 +19,8 @@ public class Scanner
 
     private static final Map<String, TokenType> keywords;
 
-    static {
+    static 
+    {
         keywords = new HashMap<>();
         keywords.put("subtract", TokenType.SUBTRACT);
         keywords.put("add", TokenType.ADD);
@@ -63,10 +64,12 @@ public class Scanner
 
     public List<Token> scanTokens() 
     {
-        while (!isAtEnd()) {
+        while (!isAtEnd()) 
+        {
             start = current;
             char c = advance();
-            switch(c) {
+            switch(c) 
+            {
                 case '(':
                     addToken(TokenType.LEFT_PAREN);
                     break;
@@ -93,12 +96,17 @@ public class Scanner
                     break;
                 
                 default: 
-                    if (isDigit(c)) {
+                    if (isDigit(c)) 
+                    {
                         number();
-                    } else if (isAlpha(c)) {
+                    } 
+                    else if (isAlpha(c)) 
+                    {
                         identifier();
-                    } else {
-                        //error handling
+                    } 
+                    else 
+                    {
+                        error();
                     }
                     break;
             }
@@ -146,20 +154,29 @@ public class Scanner
         addToken(type);
     }
 
-    void string() {
+    void string() 
+    {
         int startLine = line;
-        while (peek() != '"' && !isAtEnd() && line < startLine + 2) {
-            if (peek() == '\n') {
+        while (peek() != '"' && !isAtEnd() && line < startLine + 2) 
+        {
+            if (peek() == '\n') 
+            {
                 line++;
             }
-            advance();
-            
+            advance(); 
         }
 
-        if (isAtEnd() || line >= startLine + 2) {
-            //errorHandling
+        if (isAtEnd() || line >= startLine + 2) 
+        {
+            //Non-terminated string
+            error();
             return;
         }
+    }
+
+    void error() 
+    {
+        System.out.println("Woops");
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -195,13 +212,15 @@ public class Scanner
         return current >= inputString.length();
     }
 
-    boolean isAlpha(char c) {
+    boolean isAlpha(char c) 
+    {
         return (c >= 'a' && c <= 'z') |
             (c >= 'A' && c <= 'Z') |
             c == '_';
     }
 
-    boolean isAlphaNumeric(char c) {
+    boolean isAlphaNumeric(char c) 
+    {
         return isAlpha(c) || isDigit(c);
     }
     

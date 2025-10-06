@@ -11,15 +11,18 @@ import dk.sdu.imada.teaching.compiler.fs25.vvpl.scan.Token;
  * @version CompilerConstruction FT 2025
  */
 
-public class Parser {
+public class Parser 
+{
 
     private List<Token> tokens;
    
-    public Parser(List<Token> tokens) {
+    public Parser(List<Token> tokens) 
+    {
         this.tokens = tokens;
     }
 
-    public List<Stmt> parse() {
+    public List<Stmt> parse() 
+    {
         List<Stmt> statements = new ArrayList<>();
        
         return statements;
