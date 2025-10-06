@@ -17,12 +17,15 @@ public enum TokenType
     LEFT_BRACE,
     SEMICOLON,
 
-
     //literals
     STRING, 
     NUMBER,  // specify negative number option
-    BOOL,
     IDENTIFIER,
+
+    //Types
+    STRING_TYPE,
+    NUMBER_TYPE,
+    BOOL_TYPE,
 
     //Operators
     SUBTRACT, // x minus y
@@ -42,7 +45,7 @@ public enum TokenType
     LESS_EQUAL,
     TRUE,
     FALSE,
-    HAS_TYPE,
+    TYPE_DEF,
     RETURN,
     VAR,
     IF,
@@ -50,7 +53,6 @@ public enum TokenType
     PRINT,
     WHILE,
     CAST,
-    
     ASSIGN,
     
     // End-of-file

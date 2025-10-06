@@ -21,7 +21,31 @@ public class Scanner
 
     static {
         keywords = new HashMap<>();
-        //Add stuff
+        keywords.put("subtract", TokenType.SUBTRACT);
+        keywords.put("add", TokenType.ADD);
+        keywords.put("divide", TokenType.DIVIDE);
+        keywords.put("multiply", TokenType.MULTIPLY);
+
+        keywords.put("OR", TokenType.OR);
+        keywords.put("AND", TokenType.AND);
+        keywords.put("NOT", TokenType.NOT);
+        keywords.put("NOT_EQUALS", TokenType.NOT_EQUALS);
+        keywords.put("EQUALS", TokenType.EQUALS);
+        keywords.put("GREATER", TokenType.GREATER);
+        keywords.put("GREATER_EQUAL", TokenType.GREATER_EQUAL);
+        keywords.put("LESS", TokenType.LESS);
+        keywords.put("LESS_EQUAL", TokenType.LESS_EQUAL);
+        keywords.put("true", TokenType.TRUE);
+        keywords.put("false", TokenType.FALSE);
+        keywords.put("has_type", TokenType.TYPE_DEF);
+        keywords.put("return", TokenType.RETURN);
+        keywords.put("variable", TokenType.VAR);
+        keywords.put("if", TokenType.IF);
+        keywords.put("else", TokenType.ELSE);
+        keywords.put("write_to_console", TokenType.PRINT);
+        keywords.put("loop_while", TokenType.WHILE);
+        keywords.put("cast_to", TokenType.CAST);
+        keywords.put("is", TokenType.ASSIGN);
     }
 
 
@@ -82,23 +106,6 @@ public class Scanner
         
         return scannedTokens;
     }
-    
-    
-    private boolean match( char expected )
-    {
-        if( isAtEnd() )
-        {
-            return false;
-        }
-        if( inputString.charAt(current) != expected )
-        {
-            return false;
-        }
-        
-        current++;
-        return true;
-    }
-
 
     private void number()
     {
@@ -137,6 +144,22 @@ public class Scanner
         }
 
         addToken(type);
+    }
+
+    void string() {
+        int startLine = line;
+        while (peek() != '"' && !isAtEnd() && line < startLine + 2) {
+            if (peek() == '\n') {
+                line++;
+            }
+            advance();
+            
+        }
+
+        if (isAtEnd() || line >= startLine + 2) {
+            //errorHandling
+            return;
+        }
     }
 
     //////////////////////////////////////////////////////////////////////
