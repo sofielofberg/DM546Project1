@@ -11,5 +11,7 @@ public interface ExprVisitor<T> {
     T visitAssignment(Expr.Assignment expr);
     T visitLogicExpr(Expr.LogicExpr expr);
     T visitBinary(Expr.Binary expr);
- 
+    T visitUnary(Expr.Unary expr);
+    T visitLiteral();
+    T visitIdentifier();
 }
