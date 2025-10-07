@@ -12,7 +12,7 @@ import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.visitors.StmtVisitor;
 public abstract class Stmt {
     public abstract <T> T accept(StmtVisitor<T> visitor);
 
-    static class ExprStmt extends Stmt 
+    public static class ExprStmt extends Stmt 
     {
         final Expr expr;
 
@@ -23,12 +23,11 @@ public abstract class Stmt {
 
         @Override
         public <T> T accept(StmtVisitor<T> visitor) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'accept'");
+            return visitor.visitExprStmt(this);
         }
     }
 
-    static class IfStmt extends Stmt 
+    public static class IfStmt extends Stmt 
     {
         final Expr guard;
         final Stmt ifStmt;
@@ -45,13 +44,12 @@ public abstract class Stmt {
 
         @Override
         public <T> T accept(StmtVisitor<T> visitor) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'accept'");
+            return visitor.visitIfStmt(this);
         }
 
     }
 
-    static class WhileStmt extends Stmt 
+    public static class WhileStmt extends Stmt 
     {
         final Expr guard;
         final Stmt whileStmt;
@@ -64,13 +62,11 @@ public abstract class Stmt {
 
         @Override
         public <T> T accept(StmtVisitor<T> visitor) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'accept'");
+            return visitor.visitWhileStmt(this);
         }
-
     }
 
-    static class PrintStmt extends Stmt 
+    public static class PrintStmt extends Stmt 
     {
         final Expr expr;
 
@@ -81,13 +77,12 @@ public abstract class Stmt {
 
         @Override
         public <T> T accept(StmtVisitor<T> visitor) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'accept'");
+            return visitor.visitPrintStmt(this);
         }
 
     }
 
-    static class ReturnStmt extends Stmt 
+    public static class ReturnStmt extends Stmt 
     {
         final Expr expr;
 
@@ -98,13 +93,12 @@ public abstract class Stmt {
 
         @Override
         public <T> T accept(StmtVisitor<T> visitor) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'accept'");
+            return visitor.visitReturnStmt(this);
         }
 
     }
 
-    static class Block extends Stmt 
+    public static class Block extends Stmt 
     {
         final List<Stmt> decls;
 
@@ -115,12 +109,11 @@ public abstract class Stmt {
 
         @Override
         public <T> T accept(StmtVisitor<T> visitor) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'accept'");
+            return visitor.visitBlock(this);
         }
     }
 
-    static class VarDecl extends Stmt 
+    public static class VarDecl extends Stmt 
     {
         final Expr expr;
         
@@ -131,8 +124,7 @@ public abstract class Stmt {
 
         @Override
         public <T> T accept(StmtVisitor<T> visitor) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'accept'");
+            return visitor.visitVarDecl(this);
         }
     }
 }
