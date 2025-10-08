@@ -13,7 +13,7 @@ public abstract class Expr
 
     public static class Assignment extends Expr 
     {
-        final Expr expr;
+        public final Expr expr;
         
         public Assignment(Expr expr) 
         {
@@ -32,9 +32,9 @@ public abstract class Expr
     {
         //logicOr and logicAnd
 
-        final Expr left;
-        final Token operator;
-        final Expr right;
+        public final Expr left;
+        public final Token operator;
+        public final Expr right;
 
         public LogicExpr(Expr left, Token operator, Expr right) 
         {
@@ -55,9 +55,9 @@ public abstract class Expr
     {
         //Equality, compr and term
 
-        final Expr left;
-        final Token operator;
-        final Expr right;
+        public final Expr left;
+        public final Token operator;
+        public final Expr right;
 
         public Binary(Expr left, Token operator, Expr right) 
         {
@@ -75,8 +75,8 @@ public abstract class Expr
 
     public static class Unary extends Expr 
     {
-        final Expr expr;
-        final Token token;
+        public final Expr expr;
+        public final Token token;
 
         public Unary(Token token, Expr expr) 
         {
@@ -111,7 +111,7 @@ public abstract class Expr
     public static class Identifier extends Expr 
     {
 
-        final String string;
+        public final String string;
 
         public Identifier(String string) 
         {

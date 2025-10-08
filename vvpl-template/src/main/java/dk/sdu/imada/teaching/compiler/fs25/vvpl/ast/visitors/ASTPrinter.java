@@ -11,25 +11,12 @@ import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.Block;
 import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.ExprStmt;
 import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.IfStmt;
 import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.PrintStmt;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.VarDecl;
 import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.WhileStmt;
 
 /**
  * @author Sandra K. Johansen and Sofie Løfberg
  * @version CompilerConstruction FT 2025
  */
-
-
-/**
- * AST printer
- * we wanna print statement. 
- * for each expression we have print function
- * 
- * 
- * 
- */
- 
-
 
 public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String> 
 {
@@ -49,36 +36,55 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitExprStmt(ExprStmt Stmt) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitExprStmt'");
+    String string = "ExprStmt\n";
+    indent++;
+    string += space() + Stmt.expr.accept(this); //throw to correct handler
+    indent--;
+    return string;
   }
 
   @Override
   public String visitIfStmt(IfStmt Stmt) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitIfStmt'");
+    String string = "IfStmt\n";
+    indent++;
+    string += space() + Stmt.ifStmt.accept(this); //throw to correct handler
+    string += space() + Stmt.elseStmt.accept(this);
+    indent--;
+    return string;
   }
 
   @Override
   public String visitWhileStmt(WhileStmt Stmt) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitWhileStmt'");
+    String string = "WhileStmt\n";
+    indent++;
+    string += space() + Stmt.whileStmt.accept(this); //throw to correct handler
+    indent--;
+    return string;
   }
 
   @Override
   public String visitPrintStmt(PrintStmt Stmt) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitPrintStmt'");
+    String string = "PrintStmt\n";
+    indent++;
+    string += space() + Stmt.expr.accept(this); //throw to correct handler
+    indent--;
+    return string;
   }
 
   @Override
   public String visitBlock(Block Stmt) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitBlock'");
+    String string = "BlockStmt\n";
+    indent++;
+    for (Stmt statement : Stmt.decls) // we wanna throw each decl to accept one at a time
+    {
+      string += space() + statement.accept(this); //throw to correct handler
+    }
+    indent--;
+    return string;
   }
 
   @Override
@@ -96,42 +102,65 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitAssignment(Assignment expr) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitAssignment'");
+    String string = "AssignExpr\n";
+    indent++;
+    string += space() + expr.expr.accept(this); //throw to correct handler
+    indent--;
+    return string;
   }
 
   @Override
   public String visitLogicExpr(LogicExpr expr) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitLogicExpr'");
+    String string = "LogicalExpr\n";
+    indent++;
+    string += space() + expr.left.accept(this); //throw to correct handler
+    string += space() + expr.operator.lexeme;
+    string += space() + expr.right.accept(this); //throw to correct handler
+    indent--;
+    return string;
   }
 
   @Override
   public String visitBinary(Binary expr) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitBinary'");
+    String string = "BinaryExpr\n";
+    indent++;
+    string += space() + expr.left.accept(this); //throw to correct handler
+    string += space() + expr.operator.lexeme;
+    string += space() + expr.right.accept(this); //throw to correct handler
+    indent--;
+    return string;
   }
 
   @Override
   public String visitUnary(Unary expr) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitUnary'");
+    String string = "UnaryExpr\n";
+    indent++;
+    string += space() + expr.token.lexeme;
+    string += space() + expr.expr.accept(this); //throw to correct handler
+    indent--;
+    return string;
   }
 
   @Override
   public String visitIdentifier(Identifier string) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitIdentifier'");
+    String strin = "VariableExpr\n";
+    indent++;
+    strin += space() + string.string;
+    indent--;
+    return strin;
   }
 
   @Override
   public String visitLiteral(Literal expr) 
   {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'visitLiteral'");
+    String string = "LiteralExpr\n";
+    indent++;
+    string += space() + expr;
+    indent--;
+    return string;
   }
 }

@@ -97,7 +97,8 @@ public class Parser
     private Block block() 
     {
         List<Stmt> stmts = new ArrayList<>();
-        while (!check(TokenType.RIGHT_BRACE) && !isAtEnd()) {
+        while (!check(TokenType.RIGHT_BRACE) && !isAtEnd()) 
+        {
             Stmt stmt = statement();
             stmts.add(stmt);
         }
@@ -107,7 +108,7 @@ public class Parser
 
     private VarDecl varDecl() 
     {
-
+        //TODO: fix. but I am so tired, so I go eat and shower and sleep.
     }
 
     private ExprStmt exprStmt() 

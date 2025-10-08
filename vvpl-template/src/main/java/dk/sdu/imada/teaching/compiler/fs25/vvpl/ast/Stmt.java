@@ -16,7 +16,7 @@ public abstract class Stmt
 
     public static class ExprStmt extends Stmt 
     {
-        final Expr expr;
+        public final Expr expr;
 
         public ExprStmt(Expr expr) 
         {
@@ -33,8 +33,8 @@ public abstract class Stmt
     public static class IfStmt extends Stmt 
     {
         final Expr guard;
-        final Stmt ifStmt;
-        final Stmt elseStmt;
+        public final Stmt ifStmt;
+        public final Stmt elseStmt;
         
 
         public IfStmt(Expr guard, Stmt ifStmt, Stmt elseStmt) 
@@ -56,7 +56,7 @@ public abstract class Stmt
     public static class WhileStmt extends Stmt 
     {
         final Expr guard;
-        final Stmt whileStmt;
+        public final Stmt whileStmt;
 
         public WhileStmt(Expr guard, Stmt whileStmt)
         {
@@ -73,7 +73,7 @@ public abstract class Stmt
 
     public static class PrintStmt extends Stmt 
     {
-        final Expr expr;
+        public final Expr expr;
 
         public PrintStmt(Expr expr) 
         {
@@ -90,7 +90,7 @@ public abstract class Stmt
 
     public static class Block extends Stmt 
     {
-        final List<Stmt> decls;
+        public final List<Stmt> decls;
 
         public Block(List<Stmt> decls)
         {
