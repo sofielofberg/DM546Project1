@@ -1,7 +1,7 @@
 package dk.sdu.imada.teaching.compiler.fs25.vvpl.scan;
 
 /**
- * @author Sandra Greiner
+ * @author Sandra K. Johansen and Sofie Løfberg
  * @version CompilerConstruction FT 2025
  */
 

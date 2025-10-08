@@ -7,6 +7,9 @@ Better error handling.
 finish scanner
 start parser
 
+## notes to self
+parnethesis are literals.
+
 # Team work / work division
 We do pair programming, i.e. we use the VSCode extension Live Share to program side by side.
 We work on functions together and work through problems together, and as such are unable to

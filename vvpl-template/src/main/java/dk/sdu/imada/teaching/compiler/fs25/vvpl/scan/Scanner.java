@@ -39,7 +39,6 @@ public class Scanner
         keywords.put("true", TokenType.TRUE);
         keywords.put("false", TokenType.FALSE);
         keywords.put("has_type", TokenType.TYPE_DEF);
-        keywords.put("return", TokenType.RETURN);
         keywords.put("variable", TokenType.VAR);
         keywords.put("if", TokenType.IF);
         keywords.put("else", TokenType.ELSE);
@@ -82,6 +81,8 @@ public class Scanner
                 case '}':
                     addToken(TokenType.RIGHT_BRACE);
                     break;
+                case '-':
+                    number();
 
                 case ' ':
                 case '\r':
@@ -117,17 +118,21 @@ public class Scanner
 
     private void number()
     {
-        while( isDigit(peek() ))
+        if(peek() == '-') {
+            advance();
+        }
+
+        while(isDigit(peek()))
         {
             advance();
         }
 
         // look for fractional
-        if( peek() == '.' && isDigit( peekNext() ))
+        if(peek() == '.' && isDigit(peekNext()))
         {
             advance();
 
-            while( isDigit(peek() ))
+            while(isDigit(peek()))
             {
                 advance();
             }
@@ -172,6 +177,11 @@ public class Scanner
             error();
             return;
         }
+
+        advance();
+
+        String value = inputString.substring(start + 1, current - 1);
+        addToken(TokenType.STRING, value);
     }
 
     void error() 

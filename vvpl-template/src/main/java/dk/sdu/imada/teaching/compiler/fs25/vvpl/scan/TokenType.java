@@ -16,6 +16,7 @@ public enum TokenType
     RIGHT_BRACE,
     LEFT_BRACE,
     SEMICOLON,
+    MINUS,
 
     //literals
     STRING, 
@@ -46,7 +47,6 @@ public enum TokenType
     TRUE,
     FALSE,
     TYPE_DEF,
-    RETURN,
     VAR,
     IF,
     ELSE,
