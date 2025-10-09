@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * partial / start author: Sandra Greiner
- * additional content:
  * @author Sofie Løfberg & Sandra Johansen
  * @version CompilerConstruction FT 2025
  */

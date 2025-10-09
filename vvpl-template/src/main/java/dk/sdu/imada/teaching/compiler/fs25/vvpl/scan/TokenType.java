@@ -1,8 +1,6 @@
 package dk.sdu.imada.teaching.compiler.fs25.vvpl.scan;
 
 /**
- * partial / start author: Sandra Greiner
- * further additions:
  * @author Sofie Løfberg & Sandra Johansen
  * @version CompilerConstruction FT 2025
  */
@@ -20,7 +18,7 @@ public enum TokenType
 
     //literals
     STRING, 
-    NUMBER,  // specify negative number option
+    NUMBER,  
     IDENTIFIER,
 
     //Types
@@ -29,15 +27,15 @@ public enum TokenType
     BOOL_TYPE,
 
     //Operators
-    SUB, // x minus y
+    SUB, 
     PLUS,
     DIV,
     MULTIPLY,
     
     // Keywords
-    OR, //lowest precedence
+    OR, 
     AND,
-    NOT, //highest precedence, possibly char token
+    NOT, 
     NOT_EQUALS,
     EQUALS,
     GREATER,

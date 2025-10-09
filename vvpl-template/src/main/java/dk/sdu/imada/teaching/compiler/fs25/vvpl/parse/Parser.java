@@ -344,7 +344,8 @@ public class Parser
         return tokens.get(current);
     }
 
-    private Token peekNext() {
+    private Token peekNext() 
+    {
         return tokens.get(current + 1);
     }
 

@@ -142,7 +142,6 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
     return string;
   }
 
-  // fix these three
   @Override
   public String visitIdentifier(Identifier expr) 
   {
