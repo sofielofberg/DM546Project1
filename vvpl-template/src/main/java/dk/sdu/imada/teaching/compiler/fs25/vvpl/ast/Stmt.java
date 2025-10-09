@@ -32,7 +32,7 @@ public abstract class Stmt
 
     public static class IfStmt extends Stmt 
     {
-        final Expr guard;
+        public final Expr guard;
         public final Stmt ifStmt;
         public final Stmt elseStmt;
         
@@ -55,7 +55,7 @@ public abstract class Stmt
 
     public static class WhileStmt extends Stmt 
     {
-        final Expr guard;
+        public final Expr guard;
         public final Stmt whileStmt;
 
         public WhileStmt(Expr guard, Stmt whileStmt)

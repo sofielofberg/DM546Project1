@@ -1,17 +1,8 @@
 package dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.visitors;
 
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Expr.Assignment;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Expr.Binary;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Expr.Identifier;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Expr.Literal;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Expr.LogicExpr;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Expr.Unary;
+import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Expr.*;
 import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.Block;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.ExprStmt;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.IfStmt;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.PrintStmt;
-import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.WhileStmt;
+import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.*;
 
 /**
  * @author Sandra K. Johansen and Sofie Løfberg
@@ -20,6 +11,7 @@ import dk.sdu.imada.teaching.compiler.fs25.vvpl.ast.Stmt.WhileStmt;
 
 public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String> 
 {
+  private final String NL = System.lineSeparator();
 
   private int indent = 0;
 
@@ -30,13 +22,13 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
 
   public String print(Stmt stmt) 
   {
-    return "";
+    return stmt.accept(this);
   }
 
   @Override
   public String visitExprStmt(ExprStmt Stmt) 
   {
-    String string = "ExprStmt\n";
+    String string = "ExprStmt" + NL;
     indent++;
     string += space() + Stmt.expr.accept(this); //throw to correct handler
     indent--;
@@ -46,8 +38,9 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitIfStmt(IfStmt Stmt) 
   {
-    String string = "IfStmt\n";
+    String string = "IfStmt" + NL;
     indent++;
+    string += space() + Stmt.guard.accept(this); //throw to correct handler
     string += space() + Stmt.ifStmt.accept(this); //throw to correct handler
     string += space() + Stmt.elseStmt.accept(this);
     indent--;
@@ -57,8 +50,9 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitWhileStmt(WhileStmt Stmt) 
   {
-    String string = "WhileStmt\n";
+    String string = "WhileStmt" + NL;
     indent++;
+    string += space() + Stmt.guard.accept(this); //throw to correct handler
     string += space() + Stmt.whileStmt.accept(this); //throw to correct handler
     indent--;
     return string;
@@ -67,7 +61,7 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitPrintStmt(PrintStmt Stmt) 
   {
-    String string = "PrintStmt\n";
+    String string = "PrintStmt" + NL;
     indent++;
     string += space() + Stmt.expr.accept(this); //throw to correct handler
     indent--;
@@ -77,7 +71,7 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitBlock(Block Stmt) 
   {
-    String string = "BlockStmt\n";
+    String string = "BlockStmt" + NL;
     indent++;
     for (Stmt statement : Stmt.decls) // we wanna throw each decl to accept one at a time
     {
@@ -90,11 +84,14 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitVarDecl(Stmt.VarDecl Stmt) 
   {
-    String string = "VarDecl\n";
+    String string = "VarDecl" + NL;
     indent++;
-    string += space() + Stmt.id + "\n";
-    string += space() + Stmt.type + "\n";
-    string += space() + Stmt.expr.accept(this); //throw to correct handler
+    string += space() + Stmt.id + NL;
+    string += space() + Stmt.type.lexeme + NL;
+    if(Stmt.expr != null)
+    {
+      string += space() + Stmt.expr.accept(this); //throw to correct handler
+    }
     indent--;
     return string;
   }
@@ -102,8 +99,9 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitAssignment(Assignment expr) 
   {
-    String string = "AssignExpr\n";
+    String string = "AssignExpr" + NL;
     indent++;
+    string += space() + expr.name + NL; //throw to correct handler
     string += space() + expr.expr.accept(this); //throw to correct handler
     indent--;
     return string;
@@ -112,10 +110,10 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitLogicExpr(LogicExpr expr) 
   {
-    String string = "LogicalExpr\n";
+    String string = "LogicalExpr" + NL;
     indent++;
     string += space() + expr.left.accept(this); //throw to correct handler
-    string += space() + expr.operator.lexeme;
+    string += space() + expr.operator.lexeme + NL;
     string += space() + expr.right.accept(this); //throw to correct handler
     indent--;
     return string;
@@ -124,10 +122,10 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitBinary(Binary expr) 
   {
-    String string = "BinaryExpr\n";
+    String string = "BinaryExpr" + NL;
     indent++;
     string += space() + expr.left.accept(this); //throw to correct handler
-    string += space() + expr.operator.lexeme;
+    string += space() + expr.operator.lexeme + NL;
     string += space() + expr.right.accept(this); //throw to correct handler
     indent--;
     return string;
@@ -136,30 +134,60 @@ public class ASTPrinter implements ExprVisitor<String>, StmtVisitor<String>
   @Override
   public String visitUnary(Unary expr) 
   {
-    String string = "UnaryExpr\n";
+    String string = "UnaryExpr" + NL;
     indent++;
-    string += space() + expr.token.lexeme;
+    string += space() + expr.token.lexeme + NL;
     string += space() + expr.expr.accept(this); //throw to correct handler
     indent--;
     return string;
   }
 
+  // fix these three
   @Override
-  public String visitIdentifier(Identifier string) 
+  public String visitIdentifier(Identifier expr) 
   {
-    String strin = "VariableExpr\n";
+    String string = "VariableExpr" + NL;
     indent++;
-    strin += space() + string.string;
+    if(expr.type != null)
+    {
+      string += space() + "Cast_To " + expr.type.lexeme + NL;
+    }
+    string += space() + expr.string + NL;
     indent--;
-    return strin;
+    return string;
   }
 
   @Override
   public String visitLiteral(Literal expr) 
   {
-    String string = "LiteralExpr\n";
+    String string = "LiteralExpr" + NL;
     indent++;
-    string += space() + expr;
+    if(expr.type != null)
+    {
+      string += space() + "Cast_To " + expr.type.lexeme + NL;
+    }
+    if (expr.object instanceof String)
+    {
+      string += space() + "\"" + expr.object + "\"" + NL;
+    }
+    else
+    {
+      string += space() + expr.object + NL;
+    }
+    indent--;
+    return string;
+  }
+
+  @Override
+  public String visitGrouping(Grouping expr) 
+  {
+    String string = "LiteralExpr" + NL;
+    indent++;
+    if(expr.type != null)
+    {
+      string += space() + "Cast_To " + expr.type.lexeme + NL;
+    }
+    string += space() + expr.accept(this);
     indent--;
     return string;
   }

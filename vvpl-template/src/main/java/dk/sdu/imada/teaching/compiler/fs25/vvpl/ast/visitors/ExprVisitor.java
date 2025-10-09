@@ -15,4 +15,5 @@ public interface ExprVisitor<T>
     T visitUnary(Expr.Unary expr);
     T visitLiteral(Expr.Literal expr);
     T visitIdentifier(Expr.Identifier string);
+    T visitGrouping(Expr.Grouping expr);
 }

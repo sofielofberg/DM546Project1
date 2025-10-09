@@ -29,9 +29,9 @@ public enum TokenType
     BOOL_TYPE,
 
     //Operators
-    SUBTRACT, // x minus y
-    ADD,
-    DIVIDE,
+    SUB, // x minus y
+    PLUS,
+    DIV,
     MULTIPLY,
     
     // Keywords

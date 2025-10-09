@@ -33,7 +33,11 @@ public class Parser
     public List<Stmt> parse() 
     {
         List<Stmt> statements = new ArrayList<>();
-       
+        
+        while (!isAtEnd()) {
+            statements.add(statement());
+        }
+
         return statements;
     }
 
@@ -207,18 +211,20 @@ public class Parser
     // TERM
     private Expr term() 
     {
-        Expr expr = unary();
-        
-        while(match(TokenType.ADD, 
-                    TokenType.SUBTRACT, 
-                    TokenType.DIVIDE,
+        if(match(TokenType.PLUS, 
+                    TokenType.SUB, 
+                    TokenType.DIV,
                     TokenType.MULTIPLY))
         {
             Token operator = previous();
+            consume(TokenType.LEFT_PAREN, "missing parenthesis");
+            Expr left = term();
             Expr right = term();
-            expr = new Expr.Binary(expr, operator, right);
+            Expr expr = new Expr.Binary(left, operator, right);
+            consume(TokenType.RIGHT_PAREN, "missing parenthesis");
+            return expr;
         }
-        return expr;
+        return unary();
     }
 
     private Expr unary()
@@ -236,33 +242,46 @@ public class Parser
 
     private Expr primary()
     {
+        Token type = null;
+        if(match(TokenType.CAST)) 
+        {
+            if (match(TokenType.NUMBER_TYPE, TokenType.BOOL_TYPE, TokenType.STRING_TYPE)) 
+            {
+                type = previous();
+            } 
+            else 
+            {
+                throw new Error("Not type");
+            }
+        }
+
         if(match(TokenType.FALSE))
         {
-            return new Expr.Literal(false);
+            return new Expr.Literal(type, false);
         }
         if(match(TokenType.TRUE))
         {
-            return new Expr.Literal(true);
+            return new Expr.Literal(type, true);
         }
 
         if(match(TokenType.NUMBER, TokenType.STRING))
         {
-            return new Expr.Literal(previous().literal);
+            return new Expr.Literal(type, previous().literal);
         }
 
         if(match(TokenType.LEFT_PAREN))
         {
             Expr expr = expression();
             consume(TokenType.RIGHT_PAREN, "Expect ')' after expression");
-            return expr;
+            return new Expr.Grouping(type, expr);
         }
 
         if(match(TokenType.IDENTIFIER))
         {
-            return new Expr.Identifier(previous().lexeme);
+            return new Expr.Identifier(type, previous().lexeme);
         }
 
-        throw new Error("not a primary.");
+        throw new Error("not a primary: " + peek().lexeme + " line: " + peek().line);
     }
     
 

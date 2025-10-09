@@ -22,9 +22,9 @@ public class Scanner
     static 
     {
         keywords = new HashMap<>();
-        keywords.put("subtract", TokenType.SUBTRACT);
-        keywords.put("add", TokenType.ADD);
-        keywords.put("divide", TokenType.DIVIDE);
+        keywords.put("subtract", TokenType.SUB);
+        keywords.put("add", TokenType.PLUS);
+        keywords.put("divide", TokenType.DIV);
         keywords.put("multiply", TokenType.MULTIPLY);
 
         keywords.put("OR", TokenType.OR);
@@ -46,6 +46,9 @@ public class Scanner
         keywords.put("loop_while", TokenType.WHILE);
         keywords.put("cast_to", TokenType.CAST);
         keywords.put("is", TokenType.ASSIGN);
+        keywords.put("Bool", TokenType.BOOL_TYPE);
+        keywords.put("String", TokenType.STRING_TYPE);
+        keywords.put("Number", TokenType.NUMBER_TYPE);
     }
 
 
@@ -81,8 +84,15 @@ public class Scanner
                 case '}':
                     addToken(TokenType.RIGHT_BRACE);
                     break;
+                case ';':
+                    addToken(TokenType.SEMICOLON);
+                    break;
                 case '-':
-                    number();
+                    addToken(TokenType.MINUS);
+                    break;
+                case '#':
+                    comment();
+                    break;
 
                 case ' ':
                 case '\r':
@@ -113,15 +123,12 @@ public class Scanner
             }
         }
         
+        scannedTokens.add(new Token(TokenType.EOF, "", null, line));
         return scannedTokens;
     }
 
     private void number()
     {
-        if(peek() == '-') {
-            advance();
-        }
-
         while(isDigit(peek()))
         {
             advance();
@@ -162,7 +169,7 @@ public class Scanner
     void string() 
     {
         int startLine = line;
-        while (peek() != '"' && !isAtEnd() && line < startLine + 2) 
+        while (peek() != '"' && !isAtEnd()) 
         {
             if (peek() == '\n') 
             {
@@ -171,7 +178,7 @@ public class Scanner
             advance(); 
         }
 
-        if (isAtEnd() || line >= startLine + 2) 
+        if (isAtEnd() || line - startLine >= 2) 
         {
             //Non-terminated string
             error();
@@ -182,6 +189,14 @@ public class Scanner
 
         String value = inputString.substring(start + 1, current - 1);
         addToken(TokenType.STRING, value);
+    }
+
+    void comment() 
+    {
+        while (peek() != '\n') 
+        {
+            advance();
+        }
     }
 
     void error() 
