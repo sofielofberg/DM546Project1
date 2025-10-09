@@ -108,7 +108,19 @@ public class Parser
 
     private VarDecl varDecl() 
     {
-        //TODO: fix. but I am so tired, so I go eat and shower and sleep.
+        String name = consume(TokenType.IDENTIFIER, "Variable has no name").lexeme;
+        consume(TokenType.TYPE_DEF, "Variable has no type");
+        Token type = null;
+        if (match(TokenType.STRING_TYPE, TokenType.NUMBER_TYPE, TokenType.BOOL_TYPE)) {
+            type = previous();
+        }
+        if (match(TokenType.ASSIGN)) {
+            Expr expr = expression();
+            consume(TokenType.SEMICOLON, "Missing semicolon");
+            return new VarDecl(name, type, expr);
+        }
+        consume(TokenType.SEMICOLON, "Missing semicolon");
+        return new VarDecl(name, type, null);
     }
 
     private ExprStmt exprStmt() 
@@ -128,7 +140,10 @@ public class Parser
     {
         if (peekNext().type == TokenType.ASSIGN) 
         {
-            
+            String var = consume(TokenType.IDENTIFIER, "Missing id").lexeme;
+            consume(TokenType.ASSIGN, "");
+            Expr expr = assignment();
+            return new Expr.Assignment(var, expr);
         } 
         
         return logicOr();

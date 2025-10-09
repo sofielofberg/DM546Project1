@@ -14,9 +14,11 @@ public abstract class Expr
     public static class Assignment extends Expr 
     {
         public final Expr expr;
+        public final String name;
         
-        public Assignment(Expr expr) 
+        public Assignment(String name, Expr expr) 
         {
+            this.name = name;
             this.expr = expr;
         }
 
